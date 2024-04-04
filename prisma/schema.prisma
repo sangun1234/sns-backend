@@ -20,6 +20,10 @@ model User {
   userName  String   @unique
   email     String   @unique
   password  String
+  bio       String?
+  avatar    String?
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
 }
+
+//이미지는 하드드라이브에 저장, 데이터베이스는 url저장
