@@ -24,13 +24,20 @@ export const getUser = async (token) => {
 export function protectResolver(ourResolver) {
     // 반환되는 함수 정의
     return function (root, args, context, info) {
+        //info : 상대방이 query를 하는지 mutation을 하는지 확인가능
         // 로그인 여부 확인
+
         if (!context.loggedInUser) {
             // 사용자가 로그인되어 있지 않으면 오류 메시지와 함께 요청 거부
-            return {
-                ok: false,
-                error: "Please log in",
-            };
+            const query = info.operation.operation === "query";
+            if (query) {
+                return null;
+            } else {
+                return {
+                    ok: false,
+                    error: "로그인 해주세요",
+                };
+            }
         }
         // 사용자가 로그인되어 있으면 매개 변수로 받은 리졸버 함수 실행
         return ourResolver(root, args, context, info);
