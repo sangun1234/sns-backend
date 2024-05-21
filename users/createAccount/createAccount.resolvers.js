@@ -29,7 +29,7 @@ export default {
                     throw new Error("이미 사용중인 아이디입니다.");
                 }
                 const uglyPassword = await bcrypt.hash(password, 10);
-                return client.user.create({
+                const createUser = await client.user.create({
                     data: {
                         userName, email, firstName, lastName, password: uglyPassword,
                     },
@@ -37,8 +37,16 @@ export default {
                 // 만약 없다면 비밀번호를 해쉬화 한다.
                 // 그후 저장하고 user을 리턴시킨다. \
 
+                return {
+                    ok: true,
+                    error: null,
+                }
+
             } catch (e) {
-                return e;
+                return {
+                    ok: false,
+                    error: e,
+                }
 
             }
         },
