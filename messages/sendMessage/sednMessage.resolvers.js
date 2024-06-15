@@ -78,6 +78,8 @@ export default {
                 }
             });
             return {
+                // 여기 message의 id를 줘야되는데 어떻게 받아오지?
+                id: message.id,
                 ok: true,
             };
         }),

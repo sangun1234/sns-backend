@@ -18,7 +18,7 @@ export default {
                     error: "사진을 찾을 수 없음",
                 };
             }
-            await client.comment.create({
+            const newComment = await client.comment.create({
                 data: {
                     payload,
                     photo: {
@@ -35,6 +35,7 @@ export default {
             });
             return {
                 ok: true,
+                id: newComment.id,
             }
         }),
     },

@@ -33,12 +33,45 @@ export default {
             })
         },
 
+        comments: ({id}) => {
+            return client.comment.findMany({
+                where:{
+                    photoId: id,
+                },
+                include: {
+                    user: true,
+                }
+            })
+        },
+
         isMine: ({ userId }, _, { loggedInUser }) => {
             if (!loggedInUser) {
                 return false;
                 //loggedInUser가 없을경우엔 아래식만 있으면 에러가 뜨기 때문에 설정
             }
             return userId === loggedInUser.id;
+        },
+
+        isLiked:  async({ id }, _, { loggedInUser }) => {
+            if (!loggedInUser) {
+                return false;
+                //loggedInUser가 없을경우엔 아래식만 있으면 에러가 뜨기 때문에 설정
+            }
+            const ok = await client.like.findUnique({
+                where: {
+                    photoId_userId: {
+                        photoId:id,
+                        userId:loggedInUser.id,
+                    }
+                },
+                select: {
+                    id:true,
+                }
+            })
+            if(ok) {
+                return true;
+            }
+            return false;
         },
     },
 

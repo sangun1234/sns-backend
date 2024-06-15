@@ -37,7 +37,7 @@ model User {
 
 model Photo {
   id       Int       @id @default(autoincrement())
-  user     User      @relation(fields: [userId], references: [id])
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
   file     String
   caption  String?
@@ -60,8 +60,8 @@ model Hashtag {
 
 model Like {
   id       Int      @id @default(autoincrement())
-  photo    Photo    @relation(fields: [photoId], references: [id])
-  user     User     @relation(fields: [userId], references: [id])
+  photo    Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   photoId  Int
@@ -72,8 +72,8 @@ model Like {
 
 model Comment {
   id       Int      @id @default(autoincrement())
-  user     User     @relation(fields: [userId], references: [id])
-  photo    Photo    @relation(fields: [photoId], references: [id])
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photo    Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
   payload  String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -92,9 +92,9 @@ model Room {
 model Message {
   id       Int      @id @default(autoincrement())
   payload  String
-  user     User     @relation(fields: [userId], references: [id])
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
-  room     Room     @relation(fields: [roomId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId   Int
   read     Boolean  @default(false)
   createAt DateTime @default(now())
